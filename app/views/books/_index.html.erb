@@ -15,6 +15,11 @@
           <% end %>
         </td>
         <td><%= link_to book.title,book, class: "book_#{book.id}" %></td>
+        <td>
+         <div class="favorites_buttons_<%= book.id %>">
+          <%= render "favorites/btn", book: book %>
+         </div>
+         </td>
         <td><%= book.body %></td>
       </tr>
     <% end %>

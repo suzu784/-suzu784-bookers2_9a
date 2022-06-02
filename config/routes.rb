@@ -4,10 +4,9 @@ Rails.application.routes.draw do
 
   root to: "homes#top"
   get "home/about"=>"homes#about", as: "about"
-  get 'chat:id', to: 'chats#show', as: 'chat'
   get 'relationships/followings'
   get 'relationships/followers'
-  
+
   resources :users, only: [:index,:show,:edit,:update] do
     resource :relationships, only: [:create, :destroy]
     get 'followings' => 'relationships#followings', as: 'followings'
@@ -15,8 +14,9 @@ Rails.application.routes.draw do
   end
   resources :books, only: [:index,:show,:edit,:create,:destroy,:update]do
     resource :favorites, only: [:create, :destroy]
-    
+
     resources :book_comments, only: [:create, :destroy]
   end
+  resources :chats, only: [:show, :create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

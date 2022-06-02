@@ -4,8 +4,12 @@ class BooksController < ApplicationController
   def show
     @book = Book.find(params[:id])
     @book_new = Book.new
-    @user = @book.user
     @book_comment = BookComment.new
+    @book_detail = Book.find(params[:id])
+      unless ViewCount.find_by(user_id: current_user.id, book_id: @book_detail.id)
+        current_user.view_counts.create(book_id: @book_detail.id)
+      end
+    @user = @book.user
   end
 
   def index
@@ -17,7 +21,7 @@ class BooksController < ApplicationController
       }.reverse
     @book = Book.new
   end
-  
+
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
@@ -53,7 +57,7 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :body, :image)
   end
-  
+
   def ensure_correct_user
     @book = Book.find(params[:id])
     @user = @book.user
